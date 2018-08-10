@@ -44,14 +44,17 @@ public class BookService {
 		return bookDAO.getBook(id);
 	}
 	
+	//从购物车中移除商品
 	public void removeItemFromShoppingCart(int id, ShoppingCart sc) {
 		sc.removeItem(id);
 	}
 	
+	//清空购物车
 	public void clear(ShoppingCart sc) {
 		sc.clear();
 	}
 
+	//添加商品到购物车中
 	public boolean addTocart(int id, ShoppingCart sc) {
 		Book book = bookDAO.getBook(id);
 		
@@ -69,19 +72,23 @@ public class BookService {
 	
 	//业务方法
 	public void cash(ShoppingCart shoppingCart, String username, String accountId) {
-		//1. 更新 mybooks 数据表相关记录的 salesamount, storeanumber
+		//1.更新 mybooks 数据表相关记录的 salesamount, storeanumber
 		bookDAO.batchUpdateStoreNumberAndSalesAmount(shoppingCart.getItems());
 		
-		//2. 更新 account 数据表的 balance
+		//2.更新 account 数据表的 balance
 		accountDAO.updateBalance(Integer.parseInt(accountId), shoppingCart.getTotalMoney());
 		
-		//3. 向 trade 数据表插入一条记录
+		//3.向 trade 数据表插入一条记录
 		Trade trade = new Trade();
 		trade.setUserId(userDAO.getUser(username).getUserId());
 		trade.setTradeTime(new Date(new java.util.Date().getTime()));
 		tradeDAO.insert(trade);
 		
 		//4. 向 tradeItem 数据表插入 n 条记录
+		/**
+		 * TradeItem <-- ShoppingCartIem <-- Book
+		 * 			 <-- Trade
+		 */
 		Collection<TradeItem> items = new ArrayList<>();
 		for(ShoppingCartItem sc: shoppingCart.getItems()) {
 			TradeItem tradeItem = new TradeItem();

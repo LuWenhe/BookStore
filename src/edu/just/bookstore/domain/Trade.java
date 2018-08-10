@@ -12,7 +12,10 @@ public class Trade {
 	//交易的时间
 	private Date tradeTime;
 
-	//Trade 关联的多个 TradeItem
+	//和 Trade 关联的 User 的 userId
+	private Integer userId;
+
+	//一个 Trade 关联的多个 TradeItem
 	private Set<TradeItem> items = new LinkedHashSet<TradeItem>();
 	
 	public void setItems(Set<TradeItem> items) {
@@ -22,9 +25,6 @@ public class Trade {
 	public Set<TradeItem> getItems() {
 		return items;
 	}
-
-	//和 Trade 关联的 User 的 userId
-	private Integer userId;
 	
 	public Integer getTradeId() {
 		return tradeId;

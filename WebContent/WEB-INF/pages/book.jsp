@@ -5,14 +5,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="script/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="script/jqeury/jquery-3.3.1.js"></script>
+<link type="text/css" rel="stylesheet" href="script/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script type="text/javascript" src="script/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 <%@ include file="/commons/queryCondition.jsp" %>
 </head>
 <body>
 
 	<center>
-	
-		<br/><br/>	
+		<br><br>
 		Title: ${book.title }
 		<br/><br/>
 		Author: ${book.author }
@@ -24,7 +25,7 @@
 		Remark:	${book.remark }
 		<br/><br/>
 		
-		<a href="bookServlet?method=getBooks&pageNo=${param.pageNo }">继续购物</a>
+		<a href="bookServlet?method=getBooks&pageNo=${param.pageNo }" class="btn btn-primary">继续购物</a>
 		
 	</center>
 

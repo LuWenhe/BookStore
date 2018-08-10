@@ -2,16 +2,53 @@
 
 1). 在超链接后附带 id.
 
-<a href="bookServlet?method=getBook&pageNo=${bookPage.pageNo }&id=${book.id }">${book.title }</a>
+	<a href="bookServlet?method=getBook&pageNo=${bookPage.pageNo }&id=${book.id }">${book.title }</a>
 
 2). 对从页面传入的请求参数, 若要求该请求参数为整型的字符串, 类似于 "1", 在 Controller 中的建议处理方案:
 
-int id = -1;
+	int id = -1;
+	
+	try {
+		id = Integer.parseInt(idStr);
+	} catch (NumberFormatException e) {}
+	
+	if(id > 0){
+		book = bookService.getBook(id);
+	}
 
-try {
-	id = Integer.parseInt(idStr);
-} catch (NumberFormatException e) {}
+1.一个 User 对象对应多个 Trade 对象, 一个 Trade 对象对应一个 User 对象
 
-if(id > 0){
-	book = bookService.getBook(id);
-}
+	Class User {
+		private Integer userId;
+		private String username;
+		private Integer accountId;
+		...
+		private Set<Trade> trades = new LinkedHashSet<Trade>();
+		...
+	}
+
+2.一个 Trade 对象对应多个 TradItem 对象, 一个 TradeItem 对象对应一个 Trade 对象
+    
+	Class Trade {
+		private Integer tradeId;
+		private Integer userId;
+		private Date tradeTime;
+		...
+		private Set<TradeItem> tradeItem = new LinkedHashSet<TradeItem>();
+		...	
+	}
+
+3.一个 TradeItem 对象对应一个 Book 对象, 一个 Book 对象对应多个 TradeItem 对象
+	
+	Class TradeItem {
+		private Integer tradeItemId;
+		private Integer bookId;
+		private Integer tradeId;
+		...
+	}
+
+ 	流程： User --> Trade --> TradeItem <-- ShoppingCartIem <-- Book
+			 			   	    |
+		User <-- Trade <-- TradeItem
+		
+	

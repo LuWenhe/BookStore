@@ -6,7 +6,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="script/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="script/jqeury/jquery-3.3.1.js"></script>
+<link type="text/css" rel="stylesheet" href="script/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script type="text/javascript" src="script/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 	
 	$(function(){
@@ -90,51 +92,64 @@
 </head>
 <body>
 	
-	<center>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-3">
+				<h3>购物车列表</h3>
+			</div>
+		</div><br>
 		
-		<br/><br/>
-		<div id="bookNumber">您的购物车中共有: ${sessionScope.ShoppingCart.bookNumber } 本书</div>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<table class="table">
+					<tr>
+						<th>书名</th>
+						<th>数量</th>
+						<th>价格</th>
+						<th>操作</th>
+					</tr>
+					
+					<c:forEach items="${sessionScope.ShoppingCart.items }" var="item">
+						<tr>
+							<td>${item.book.title }</td>
+							<td>
+								<input class="${item.quantity }" type="text" size="2" name="${item.book.id }" value="${item.quantity }"/>
+							</td>
+							<td>${item.book.price }</td>
+							<td>
+								<a class="btn btn-danger btn-sm delete" href="bookServlet?method=remove&pageNo=${param.pageNo }&id=${item.book.id }">删除</a>
+							</td>
+						</tr>
+					</c:forEach>
+			
+					<tr>
+						<td colspan="2" id="totalMoney">
+							<strong>总金额: ${sessionScope.ShoppingCart.totalMoney }</strong>
+						</td>
+						
+						<td colspan="2" id="bookNumber">
+							<strong>您的购物车中共有: ${sessionScope.ShoppingCart.bookNumber } 本书</strong>
+						</td>
+					</tr>
+					
+				</table>
+			</div>
+		</div>
 		
-		<table cellpadding="10">
-			<tr>
-				<td>Title</td>
-				<td>Quantity</td>
-				<td>Price</td>
-				<td>&nbsp;</td>
-			</tr>
-			
-			<c:forEach items="${sessionScope.ShoppingCart.items }" var="item">
-				<tr>
-					<td>${item.book.title }</td>
-					<td>
-						<input class="${item.quantity }" type="text" size="1" name="${item.book.id }" value="${item.quantity }"/>
-					</td>
-					<td>${item.book.price }</td>
-					<td>
-						<a class="delete" href="bookServlet?method=remove&pageNo=${param.pageNo }&id=${item.book.id }">删除</a>
-					</td>
-				</tr>
-			</c:forEach>
-			
-			<tr>
-				<td colspan="4" id="totalMoney">总金额: ${sessionScope.ShoppingCart.totalMoney }</td>
-			</tr>
-			
-			<tr>
-				<td colspan="4">
-					<a href="bookServlet?method=getBooks&pageNo=${param.pageNo }">继续购物</a>
-					&nbsp;&nbsp;
-					
-					<a href="bookServlet?method=clear">清空购物车</a>
-					&nbsp;&nbsp;					
-					
-					<a href="bookServlet?method=forwardPage&page=cash">结账</a>
-					&nbsp;&nbsp;
-				</td>
-			</tr>
-		</table>
-	</center>
-	
+		<div class="row"> 
+			<div class="col-md-6 col-md-offset-4">
+				<a class="btn btn-primary" href="bookServlet?method=getBooks&pageNo=${param.pageNo }">继续购物</a>
+				&nbsp;&nbsp;
+				
+				<a class="btn btn-info" href="bookServlet?method=clear">清空购物车</a>
+				&nbsp;&nbsp;
+				
+				<a class="btn btn-success" href="bookServlet?method=forwardPage&page=cash">结账</a>
+				&nbsp;&nbsp;
+			</div>
+		</div>
+	</div>
+		
 	
 </body>
 </html>

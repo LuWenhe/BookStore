@@ -14,6 +14,15 @@ public class TradeItem {
 
 	private Integer tradeId;
 
+	public TradeItem() {}
+	
+	public TradeItem(Integer tradeItemId, Integer bookId, int quantity, Integer tradeId) {
+		this.tradeItemId = tradeItemId;
+		this.bookId = bookId;
+		this.quantity = quantity;
+		this.tradeId = tradeId;
+	}
+
 	public void setBook(Book book) {
 		this.book = book;
 	}
@@ -54,25 +63,10 @@ public class TradeItem {
 		this.tradeId = tradeId;
 	}
 
-	public TradeItem(Integer tradeItemId, Integer bookId, int quantity,
-			Integer tradeId) {
-		super();
-		this.tradeItemId = tradeItemId;
-		this.bookId = bookId;
-		this.quantity = quantity;
-		this.tradeId = tradeId;
-	}
-	
-	public TradeItem() {
-		
-	}
-
 	@Override
 	public String toString() {
 		return "TradeItem [tradeItemId=" + tradeItemId + ", quantity="
 				+ quantity + ", bookId=" + bookId + "]";
 	}
-	
-	
 
 }

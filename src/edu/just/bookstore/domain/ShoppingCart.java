@@ -4,6 +4,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 购物车的操作类
+ * @author luwen
+ *
+ */
 public class ShoppingCart {
 
 	private Map<Integer, ShoppingCartItem> books = new HashMap<>();

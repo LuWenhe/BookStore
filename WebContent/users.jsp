@@ -5,15 +5,23 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="script/jqeury/jquery-3.3.1.js"></script>
+<link type="text/css" rel="stylesheet" href="script/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script type="text/javascript" src="script/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 </head>
 <body>
 	
 	<center>
-		<form action="userServlet?method=getUser" method="post">
-			Username: <input type="text" name="username"/>
-			<input type="submit" value="Submit" />
+		<br><br>
+		<form class="form-inline" action="userServlet?method=getUser" method="post">
+			<div class="form-group">
+		    	<label>Username</label>
+		    	<input type="text" class="form-control" name="username" placeholder="姓名">
+		  	</div>
+			
+			<button type="submit" class="btn btn-success">提交</button>
 		</form>
 	</center>
-
+	
 </body>
 </html>

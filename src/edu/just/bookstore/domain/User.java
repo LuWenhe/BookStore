@@ -9,6 +9,7 @@ public class User {
 	private String username;
 	private int accountId;
 	 
+	//一个 User 对象关联多个 Trade 对象
 	private Set<Trade> trades = new LinkedHashSet<Trade>();
 
 	public void setTrades(Set<Trade> trades) {
