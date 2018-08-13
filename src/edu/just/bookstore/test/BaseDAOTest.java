@@ -1,21 +1,25 @@
 package edu.just.bookstore.test;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
+import java.sql.Connection;
 import java.sql.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import edu.just.bookstore.dao.impl.BookDAOImpl;
+import edu.just.bookstore.db.JDBCUtils;
 import edu.just.bookstore.domain.Book;
+import edu.just.bookstore.web.ConnectionContext;
 
 class BaseDAOTest {
 
 	private BookDAOImpl bookDAOImpl = new BookDAOImpl();
 	
+	private Connection connection = JDBCUtils.getConnection();
+	
 	@Test
 	void testInsert() {
+		ConnectionContext.getInstance().bind(connection);
 		String sql = "INSERT INTO trade(userid, tradetime) VALUES(?, ?) ";
 		long id = bookDAOImpl.insert(sql, 1, new Date(new java.util.Date().getTime()));
 		
@@ -24,12 +28,14 @@ class BaseDAOTest {
 
 	@Test
 	void testUpdate() {
+		ConnectionContext.getInstance().bind(connection);
 		String sql = "UPDATE mybooks SET salesamount = ? WHERE id = ?";
 		bookDAOImpl.update(sql, 10, 4);
 	}
 
 	@Test
 	void testQuery() {
+		ConnectionContext.getInstance().bind(connection);
 		String sql = "SELECT id, author, title, price, publishingdate, salesamount,"
 				+ " storenumber, remark FROM mybooks WHERE id = ?";
 		
@@ -39,6 +45,7 @@ class BaseDAOTest {
 
 	@Test
 	void testQueryForList() {
+		ConnectionContext.getInstance().bind(connection);
 		String sql = "SELECT id, author, title, price, publishingdate, salesamount,"
 				+ " storenumber, remark FROM mybooks WHERE id < ?";
 		
@@ -48,6 +55,7 @@ class BaseDAOTest {
 
 	@Test
 	void testGetSingleVal() {
+		ConnectionContext.getInstance().bind(connection);
 		String sql = "SELECT count(id) FROM mybooks";
 		long count = bookDAOImpl.getSingleVal(sql);
 		
@@ -56,6 +64,7 @@ class BaseDAOTest {
 
 	@Test
 	void testBatch() {
+		ConnectionContext.getInstance().bind(connection);
 		String sql = "UPDATE mybooks SET salesamount = ?, storenumber = ? " + 
 					"WHere id = ?";
 		

@@ -51,4 +51,26 @@
 			 			   	    |
 		User <-- Trade <-- TradeItem
 		
+关于 ThreadLocal:
+	> 通过 Thread.set() 将对象的引用保存到各自线程的一个 map 中, 每个线程都有这样一个 map, 执行 Thread.get() 时候,
+	     各自的线程从自己的 map 中取出放进去的对象, 因此取出来的是各自线程中的对象
 	
+	> 一般情况下, 通过 ThreadLocal.set() 方法到线程中的对象是该线程自己使用的对象, 其他线程是不需要访问的
+	
+	> ThreadLocal 不是用来解决共享对象的多线程访问问题的, 如果 ThreadLocal.set() 进去的东西本来就是多个线程共享
+	      的同一对象, 那么多个线程的 ThreadLocal.get() 取得的还是这个共享对象本身, 还是存在并发访问的问题
+	
+	> ThreadLocal 的应用场景: 按线程多实例(每个线程对应一个实例) 的对象访问, 比如一个 dao 层的方法对应一个 connection 对象, 
+	     此时可以使用 ThreadLocal
+
+
+该项目使用 ThreadLocal 的步骤:
+
+	①.创建单例类 ConnectionContext, 该类用于 DAO 层里的每个方法都共同使用一个 Conntection 对象, 使用单例的原因是, ThreadLocal 的 Map 对象,
+	     即每次使用增删改查方法时候, 会创建自己的一个 Map 对象
+	     
+	②.创建过滤器类 TranactionFilter, 每个涉及到增删改查的业务都会经过这个过滤器, 获取连接, 开启事务, 如果中途出现异常, 则会进行回滚
+	     
+	     设定setAutoCommit(false) 若没有在 catch 中进行 Connection 的 rollBack 操作，操作的表就会被锁住，造成数据库死锁
+	     虽然在执行 connection.close() 的时候会释放锁，但若应用服务器使用了数据库连接池，连接不会被断开，从而不会放锁
+

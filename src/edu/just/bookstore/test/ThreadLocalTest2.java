@@ -8,15 +8,16 @@ public class ThreadLocalTest2 implements Runnable {
 	@Override
 	public void run() {
 		for(; i<10; i++) {
-			synchronized (this) {
-				threadLocal.set(Thread.currentThread().getName());
-				
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {}
-				
-				System.out.println(Thread.currentThread().getName() + ": " + threadLocal.get());
+			threadLocal.set(Thread.currentThread().getName());
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
+			
+			System.out.println(Thread.currentThread().getName() 
+					+ ": " + threadLocal.get());
 		}
 	}
 
@@ -25,5 +26,6 @@ public class ThreadLocalTest2 implements Runnable {
 		new Thread(tt, "AAA").start();
 		new Thread(tt, "BBB").start();
 		new Thread(tt, "CCC").start();
+		
 	}
 }

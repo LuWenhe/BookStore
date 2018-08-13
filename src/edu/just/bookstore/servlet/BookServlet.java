@@ -46,9 +46,11 @@ public class BookServlet extends HttpServlet {
 		
 		try {
 			Method method = getClass().getMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
+			method.setAccessible(true);
 			method.invoke(this, request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 	
